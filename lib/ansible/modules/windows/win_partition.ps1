@@ -126,7 +126,6 @@ function New-AnsiblePartition {
     param(
         $DiskNumber,
         $Letter,
-        $SizeMax,
         $Size,
         $MbrType,
         $GptType,
@@ -145,15 +144,6 @@ function New-AnsiblePartition {
             default {
                 $parameters.Add("DriveLetter", $Letter)
             }
-        }
-    }
-
-    switch ($SizeMax) {
-        $True {
-            $parameters.Add("UseMaximumSize", $True)
-        }
-        $False {
-            $parameters.Add("Size", $Size)
         }
     }
 
@@ -300,7 +290,7 @@ else {
         }
 
         if (-not $module.CheckMode) {
-            $ansible_partition = New-AnsiblePartition -DiskNumber $disk_number -Letter $drive_letter -SizeMax $size_is_maximum -Size $ansible_partition_size -MbrType $mbr_type -GptType $gpt_type -Style $partition_style
+            $ansible_partition = New-AnsiblePartition -DiskNumber $disk_number -Letter $drive_letter -Size $ansible_partition_size -MbrType $mbr_type -GptType $gpt_type -Style $partition_style
         }
         $module.Result.changed = $true
     }
